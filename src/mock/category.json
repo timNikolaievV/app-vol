@@ -1,0 +1,26 @@
+[
+  {
+    "categoryId": "1ceda69c-89ab-433f-ae4d-9a9990892139",
+    "categoryName": "food",
+    "description": "Food to eat",
+    "image": "https://img.freepik.com/free-photo/top-view-assortment-vegetables-paper-bag_23-2148853335.jpg?w=2000&t=st=1667481476~exp=1667482076~hmac=9498e4f1245986868ae2c6bbf88ecf75ff1dbad8133b364c0c0b27067702f43b"
+  },
+  {
+    "categoryId": "a03ab572-daa5-4fac-8ac1-f5b4b6bb5e5c",
+    "categoryName": "clothe",
+    "description": "Clothe to wear",
+    "image": "https://images.pexels.com/photos/996329/pexels-photo-996329.jpeg?auto=compress&cs=tinysrgb&w=800"
+  },
+  {
+    "categoryId": "6d821ae2-8310-44d7-b76a-1306d6921fe0",
+    "categoryName": "hygiene",
+    "description": "Personal Hygiene",
+    "image": "https://img.freepik.com/free-vector/set-cartoon-hygiene-care-products-flat-illustration-collection-toiletries-household-supplies-personal-use_74855-16244.jpg?w=2000"
+  },
+  {
+    "categoryId": "edc34411-358a-4547-be62-d0abf2eb4897",
+    "categoryName": "other",
+    "description": "Other things",
+    "image": "https://static8.depositphotos.com/1313517/801/i/600/depositphotos_8017793-stock-photo-full-garage.jpg"
+  }
+]
