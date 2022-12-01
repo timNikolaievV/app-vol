@@ -4,12 +4,6 @@ import authCtrl from "../controllers/auth.controller";
 
 const router = express.Router();
 
-router.route("/api/categoieys").get(categoryCtrl.list);
-
-router
-  .route("/api/categories/:categoryId")
-  .get(authCtrl.requireSignin, categoryCtrl.read);
-
-router.param("categoryId", categoryCtrl.categoryByID);
+router.route("/api/categories").get(categoryCtrl.list);
 
 export default router;

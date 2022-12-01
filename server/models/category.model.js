@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
-import { isInteger } from "lodash";
+
 const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -13,7 +12,5 @@ const CategorySchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
-CategorySchema.methods = {};
 
 export default mongoose.model("Category", CategorySchema);

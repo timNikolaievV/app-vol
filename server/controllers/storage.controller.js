@@ -43,7 +43,7 @@ const read = (req, res) => {
 
 const list = async (req, res) => {
   try {
-    let storages = await Storage.find().select('name email updated created')
+    let storages = await Storage.find().select('name location contactPerson updated created')
     res.json(storages)
   } catch (err) {
     return res.status(400).json({
