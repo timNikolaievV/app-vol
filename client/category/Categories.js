@@ -14,7 +14,7 @@ import Person from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { Redirect, Link } from "react-router-dom";
-import { list } from "./api-storage.js";
+import { list } from "./api-category.js";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -33,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Storages() {
+export default function Categories() {
   const classes = useStyles();
-  const [storages, setStorages] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -45,7 +45,7 @@ export default function Storages() {
       if (data && data.error) {
         console.log(data.error);
       } else {
-        setStorages(data);
+        setCategories(data);
       }
     });
 
@@ -57,28 +57,14 @@ export default function Storages() {
   return (
     <Paper className={classes.root} elevation={4}>
       <Typography variant="h6" className={classes.title}>
-        All Storages
-        <span className={classes.addButton}>
-          <Link to="/storage/new">
-            <Button color="primary" variant="contained">
-              <Icon className={classes.leftIcon}>add_box</Icon> New Storage
-            </Button>
-          </Link>
-        </span>
+        All Categories
       </Typography>
       <List dense>
-        {storages.map((item, i) => {
+        {categories.map((item, i) => {
           return (
-            <Link to={"/storage/" + item._id} key={i}>
+            <Link to={"/category/" + item._id} key={i}>
               <ListItem button>
                 <ListItemText primary={item.name} />
-                <ListItemText primary={item.location} />
-                <ListItemText primary={item.contactPerson} />
-                <ListItemSecondaryAction>
-                  <IconButton>
-                    <ArrowForward />
-                  </IconButton>
-                </ListItemSecondaryAction>
               </ListItem>
             </Link>
           );

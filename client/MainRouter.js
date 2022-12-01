@@ -10,6 +10,7 @@ import PrivateRoute from "./auth/PrivateRoute";
 import Menu from "./core/Menu";
 import Storages from "./storage/Storages";
 import NewStorage from "./storage/NewStorage";
+import Categories from "./category/Categories";
 
 const MainRouter = () => {
   return (
@@ -23,8 +24,10 @@ const MainRouter = () => {
         <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
         <Route path="/user/:userId" component={Profile} />
 
-        <PrivateRoute path="/storage" component={Storages} />
         <PrivateRoute path="/storagenew" component={NewStorage} />
+        <PrivateRoute path="/storage" component={Storages} />
+
+        <PrivateRoute path="/category" component={Categories} />
       </Switch>
     </div>
   );

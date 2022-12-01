@@ -46,6 +46,10 @@ const Menu = withRouter(({ history }) => (
             </Link>
           )}
 
+          <Link to={"/category"}>
+            <Button style={isActive(history, "/category")}>Category</Button>
+          </Link>
+
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
             <Button
               style={isActive(
