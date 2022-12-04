@@ -11,8 +11,10 @@ import Menu from "./core/Menu";
 import Storages from "./storage/Storages";
 import NewStorage from "./storage/NewStorage";
 import EditStorage from "./storage/EditStorage";
-import DeleteStorage from "./storage/DeleteStorage";
 import Storage from "./storage/Storage";
+
+import Queries from "./query/Queries";
+import NewQueries from "./query/NewQuery";
 
 import Categories from "./category/Categories";
 
@@ -34,6 +36,9 @@ const MainRouter = () => {
         <PrivateRoute path="/storages" component={Storages} />
 
         <PrivateRoute path="/category" component={Categories} />
+
+        <PrivateRoute path="/query/new" component={NewQueries} />
+        <PrivateRoute path="/queries" component={Queries} />
       </Switch>
     </div>
   );

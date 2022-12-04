@@ -11,9 +11,17 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     requierd: "Amount is required",
   },
-  category: { type: mongoose.Schema.ObjectId, ref: "Category" },
-  
-  storage: { type: mongoose.Schema.ObjectId, ref: "Storage" },
+  category: {
+    type: Number,
+    requierd: "Amount is required",
+  },
+  storage: {
+    type: Number,
+    requierd: "Amount is required",
+  },
+  // category: { type: mongoose.Schema.ObjectId, ref: "Category" },
+
+  // storage: { type: mongoose.Schema.ObjectId, ref: "Storage" },
 
   updated: Date,
   created: {
