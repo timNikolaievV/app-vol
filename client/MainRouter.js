@@ -37,8 +37,8 @@ const MainRouter = () => {
 
         <PrivateRoute path="/category" component={Categories} />
 
-        <PrivateRoute path="/query/new" component={NewQueries} />
-        <PrivateRoute path="/queries" component={Queries} />
+        <PrivateRoute path="/storage/query/new" component={NewQueries} />
+        <PrivateRoute path="/storage/queries/:storageId" component={Queries} />
       </Switch>
     </div>
   );

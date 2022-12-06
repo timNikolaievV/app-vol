@@ -1,27 +1,29 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
-import { isInteger } from "lodash";
+
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
     required: "Name is required",
   },
-  amount: {
+  demand: {
     type: Number,
-    requierd: "Amount is required",
+    requierd: "Demand is required",
+  },
+  collected: {
+    type: Number,
+    requierd: "Collected is required",
+  },
+  unitOfMeasure: {
+    type: String,
+    requierd: "Unit of measure is required",
   },
   category: {
-    type: Number,
-    requierd: "Amount is required",
+    type: String,
+    requierd: "Category is required",
   },
-  storage: {
-    type: Number,
-    requierd: "Amount is required",
-  },
-  // category: { type: mongoose.Schema.ObjectId, ref: "Category" },
 
-  // storage: { type: mongoose.Schema.ObjectId, ref: "Storage" },
+  storage: { type: mongoose.Schema.ObjectId, ref: "Storage" },
 
   updated: Date,
   created: {

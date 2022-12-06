@@ -1,17 +1,18 @@
 import express from "express";
 import queryCtrl from "../controllers/query.controller";
 import authCtrl from "../controllers/auth.controller";
+import storageCtrl from "../controllers/storage.controller";
 
 const router = express.Router();
 
-router.route("/api/queries").get(storageCtrl.list).post(storageCtrl.create);
-
 router
-  .route("/api/queries/:storageId")
-  .get(authCtrl.requireSignin, storageCtrl.read)
-  .put(authCtrl.requireSignin, storageCtrl.update)
-  .delete(authCtrl.requireSignin, storageCtrl.remove);
+  .route("/api/queries/by/:storageId")
+  .post(authCtrl.requireSignin, queryCtrl.create) // shopCtrl.isOwner,
+  .get(queryCtrl.listByStorage);
+
+router.route("/api/queries/categories").get(productCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);
+//router.param("queryId", queryCtrl.queryByID);
 
 export default router;

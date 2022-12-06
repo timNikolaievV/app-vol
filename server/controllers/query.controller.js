@@ -16,10 +16,7 @@ const create = async (req, res) => {
   }
 };
 
-/**
- * Load storage and append to req.
- */
-const storageByID = async (req, res, next, id) => {
+const queryeByID = async (req, res, next, id) => {
   try {
     let storage = await Storage.findById(id);
     if (!storage)
@@ -35,16 +32,14 @@ const storageByID = async (req, res, next, id) => {
   }
 };
 
-const read = (req, res) => {
-  return res.json(req.storage);
-};
-
-const list = async (req, res) => {
+const listByStorage = async (req, res) => {
   try {
-    let storages = await Storage.find().select(
-      "name location contactPerson updated created"
+    let queries = await Query.find({ storage: req.storage._id }).populate(
+      "storage",
+      "_id name"
     );
-    res.json(storages);
+
+    res.json(queries);
   } catch (err) {
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
@@ -52,15 +47,10 @@ const list = async (req, res) => {
   }
 };
 
-const update = async (req, res) => {
+const listCategories = async (req, res) => {
   try {
-    let storage = req.storage;
-    storage = extend(storage, req.body);
-    storage.updated = Date.now();
-    await storage.save();
-    storage.hashed_password = undefined;
-    storage.salt = undefined;
-    res.json(storage);
+    let queries = await Query.distinct("category", {});
+    res.json(queries);
   } catch (err) {
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
@@ -68,25 +58,60 @@ const update = async (req, res) => {
   }
 };
 
-const remove = async (req, res) => {
-  try {
-    let storage = req.storage;
-    let deletedStorage = await storage.remove();
-    deletedStorage.hashed_password = undefined;
-    deletedStorage.salt = undefined;
-    res.json(deletedStorage);
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err),
-    });
-  }
-};
+// const read = (req, res) => {
+//   return res.json(req.storage);
+// };
+
+// const list = async (req, res) => {
+//   try {
+//     let storages = await Storage.find().select(
+//       "name location contactPerson updated created"
+//     );
+//     res.json(storages);
+//   } catch (err) {
+//     return res.status(400).json({
+//       error: errorHandler.getErrorMessage(err),
+//     });
+//   }
+// };
+
+// const update = async (req, res) => {
+//   try {
+//     let storage = req.storage;
+//     storage = extend(storage, req.body);
+//     storage.updated = Date.now();
+//     await storage.save();
+//     storage.hashed_password = undefined;
+//     storage.salt = undefined;
+//     res.json(storage);
+//   } catch (err) {
+//     return res.status(400).json({
+//       error: errorHandler.getErrorMessage(err),
+//     });
+//   }
+// };
+
+// const remove = async (req, res) => {
+//   try {
+//     let storage = req.storage;
+//     let deletedStorage = await storage.remove();
+//     deletedStorage.hashed_password = undefined;
+//     deletedStorage.salt = undefined;
+//     res.json(deletedStorage);
+//   } catch (err) {
+//     return res.status(400).json({
+//       error: errorHandler.getErrorMessage(err),
+//     });
+//   }
+// };
 
 export default {
   create,
-  storageByID,
-  read,
-  list,
-  remove,
-  update,
+  queryeByID,
+  listByStorage,
+  listCategories,
+  // read,
+  // list,
+  // remove,
+  // update,
 };
