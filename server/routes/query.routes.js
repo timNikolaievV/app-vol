@@ -10,7 +10,7 @@ router
   .post(authCtrl.requireSignin, queryCtrl.create) // shopCtrl.isOwner,
   .get(queryCtrl.listByStorage);
 
-router.route("/api/queries/categories").get(productCtrl.listCategories);
+router.route("/api/queries/categories").get(queryCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);
 //router.param("queryId", queryCtrl.queryByID);

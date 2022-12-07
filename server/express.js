@@ -9,6 +9,7 @@ import Template from "./../template";
 import userRoutes from "./routes/user.routes";
 import authRoutes from "./routes/auth.routes";
 import storageRoutes from "./routes/storage.routes";
+import queryRoutes from "./routes/query.routes";
 
 // modules for server side rendering
 import React from "react";
@@ -45,6 +46,7 @@ app.use("/dist", express.static(path.join(CURRENT_WORKING_DIR, "dist")));
 app.use("/", userRoutes);
 app.use("/", authRoutes);
 app.use("/", storageRoutes);
+app.use("/", queryRoutes);
 
 app.get("*", (req, res) => {
   const sheets = new ServerStyleSheets();
@@ -70,7 +72,7 @@ app.get("*", (req, res) => {
   );
 });
 
-// Catch unauthorised errors
+
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ error: err.name + ": " + err.message });

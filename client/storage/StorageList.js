@@ -14,7 +14,7 @@ import Person from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { Redirect, Link } from "react-router-dom";
-import { listByStorage , list} from "./api-query.js";
+import { list } from "./api-storage.js";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StorageQueries() {
+export default function StorageList() {
   const classes = useStyles();
   const [storages, setStorages] = useState([]);
 
@@ -58,13 +58,6 @@ export default function StorageQueries() {
     <Paper className={classes.root} elevation={4}>
       <Typography variant="h6" className={classes.title}>
         All Storages
-        <span className={classes.addButton}>
-          <Link to="/storage/query/new">
-            <Button color="primary" variant="contained">
-              <Icon className={classes.leftIcon}>add_box</Icon> New Storage
-            </Button>
-          </Link>
-        </span>
       </Typography>
       <List dense>
         {storages.map((item, i) => {

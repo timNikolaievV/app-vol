@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const QuerySchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
@@ -32,6 +32,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.methods = {};
+QuerySchema.methods = {};
 
-export default mongoose.model("User", UserSchema);
+export default mongoose.model("Query", QuerySchema);

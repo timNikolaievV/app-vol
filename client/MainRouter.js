@@ -13,7 +13,7 @@ import NewStorage from "./storage/NewStorage";
 import EditStorage from "./storage/EditStorage";
 import Storage from "./storage/Storage";
 
-import Queries from "./query/Queries";
+import QueriesByStorage from "./query/QueriesByStorage";
 import NewQueries from "./query/NewQuery";
 
 import Categories from "./category/Categories";
@@ -38,7 +38,10 @@ const MainRouter = () => {
         <PrivateRoute path="/category" component={Categories} />
 
         <PrivateRoute path="/storage/query/new" component={NewQueries} />
-        <PrivateRoute path="/storage/queries/:storageId" component={Queries} />
+        <Route
+          path="/storage/queries/:storageId"
+          component={QueriesByStorage}
+        />
       </Switch>
     </div>
   );

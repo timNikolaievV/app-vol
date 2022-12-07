@@ -8,7 +8,7 @@ import GridList from "@material-ui/core/GridList";
 import GridListTile from "@material-ui/core/GridListTile";
 import Icon from "@material-ui/core/Icon";
 import { list } from "./api-query";
-import Queries from "./Queries";
+import Queries from "./QueriesByStorage";
 
 const useStyles = makeStyles((theme) => ({
   root: {

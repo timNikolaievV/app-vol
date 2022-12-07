@@ -1,11 +1,12 @@
+import Query from "../models/query.model";
 import Storage from "../models/storage.model";
-import extend from "lodash/extend";
+
 import errorHandler from "../helpers/dbErrorHandler";
 
 const create = async (req, res) => {
-  const storage = new Storage(req.body);
+  const query = new Query(req.body);
   try {
-    await storage.save();
+    await query.save();
     return res.status(200).json({
       message: "Successfully signed up!",
     });
@@ -18,28 +19,30 @@ const create = async (req, res) => {
 
 const queryeByID = async (req, res, next, id) => {
   try {
-    let storage = await Storage.findById(id);
-    if (!storage)
+    let query = await Query.findById(id);
+    if (!query)
       return res.status("400").json({
-        error: "Storage not found",
+        error: "Query not found",
       });
-    req.storage = storage;
+    req.query = query;
     next();
   } catch (err) {
     return res.status("400").json({
-      error: "Could not retrieve storage",
+      error: "Could not retrieve query",
     });
   }
 };
 
 const listByStorage = async (req, res) => {
   try {
-    let queries = await Query.find({ storage: req.storage._id }).populate(
-      "storage",
+    
+    let storage = await Storage.findById("638871ee41d0942700c1d243");
+    let queries = await Query.find({ query: req.query._id }).populate(
+      "query",
       "_id name"
     );
 
-    res.json(queries);
+    res.json({ queries: queries, storage: storage });
   } catch (err) {
     return res.status(400).json({
       error: errorHandler.getErrorMessage(err),
@@ -59,15 +62,15 @@ const listCategories = async (req, res) => {
 };
 
 // const read = (req, res) => {
-//   return res.json(req.storage);
+//   return res.json(req.query);
 // };
 
 // const list = async (req, res) => {
 //   try {
-//     let storages = await Storage.find().select(
+//     let querys = await Query.find().select(
 //       "name location contactPerson updated created"
 //     );
-//     res.json(storages);
+//     res.json(querys);
 //   } catch (err) {
 //     return res.status(400).json({
 //       error: errorHandler.getErrorMessage(err),
@@ -77,13 +80,13 @@ const listCategories = async (req, res) => {
 
 // const update = async (req, res) => {
 //   try {
-//     let storage = req.storage;
-//     storage = extend(storage, req.body);
-//     storage.updated = Date.now();
-//     await storage.save();
-//     storage.hashed_password = undefined;
-//     storage.salt = undefined;
-//     res.json(storage);
+//     let query = req.query;
+//     query = extend(query, req.body);
+//     query.updated = Date.now();
+//     await query.save();
+//     query.hashed_password = undefined;
+//     query.salt = undefined;
+//     res.json(query);
 //   } catch (err) {
 //     return res.status(400).json({
 //       error: errorHandler.getErrorMessage(err),
@@ -93,11 +96,11 @@ const listCategories = async (req, res) => {
 
 // const remove = async (req, res) => {
 //   try {
-//     let storage = req.storage;
-//     let deletedStorage = await storage.remove();
-//     deletedStorage.hashed_password = undefined;
-//     deletedStorage.salt = undefined;
-//     res.json(deletedStorage);
+//     let query = req.query;
+//     let deletedQuery = await query.remove();
+//     deletedQuery.hashed_password = undefined;
+//     deletedQuery.salt = undefined;
+//     res.json(deletedQuery);
 //   } catch (err) {
 //     return res.status(400).json({
 //       error: errorHandler.getErrorMessage(err),
