@@ -14,7 +14,7 @@ import EditStorage from "./storage/EditStorage";
 import Storage from "./storage/Storage";
 
 import QueriesByStorage from "./query/QueriesByStorage";
-import NewQueries from "./query/NewQuery";
+import NewQuery from "./query/NewQuery";
 
 import Categories from "./category/Categories";
 
@@ -24,6 +24,7 @@ const MainRouter = () => {
       <Menu />
       <Switch>
         <Route exact path="/" component={Home} />
+
         <Route path="/users" component={Users} />
         <Route path="/signup" component={Signup} />
         <Route path="/signin" component={Signin} />
@@ -37,9 +38,12 @@ const MainRouter = () => {
 
         <PrivateRoute path="/category" component={Categories} />
 
-        <PrivateRoute path="/storage/query/new" component={NewQueries} />
+        <PrivateRoute
+          path="/queriesByStorage/:storageId/new"
+          component={NewQuery}
+        />
         <Route
-          path="/storage/queries/:storageId"
+          path="/queriesByStorage/:storageId"
           component={QueriesByStorage}
         />
       </Switch>

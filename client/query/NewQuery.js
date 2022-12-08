@@ -44,11 +44,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewStorage() {
+export default function NewQueries({ match }) {
   const classes = useStyles();
   const [values, setValues] = useState({
     name: "",
-    amount: "",
+    demand: "",
+    collected: "",
+    unitOfMeasure: "",
     category: "",
     storage: "",
     redirect: false,
@@ -57,37 +59,42 @@ export default function NewStorage() {
   const jwt = auth.isAuthenticated();
 
   const handleChange = (name) => (event) => {
-    const value = name === "image" ? event.target.files[0] : event.target.value;
-    setValues({ ...values, [name]: value });
+    setValues({ ...values, [name]: event.target.value });
   };
   const clickSubmit = () => {
-    const storage = {
+    const queries = {
       name: values.name || undefined,
-      amount: values.amount || undefined,
+      demand: values.demand || undefined,
+      collected: values.collected || undefined,
+      unitOfMeasure: values.unitOfMeasure || undefined,
       category: values.category || undefined,
       storage: values.storage || undefined,
     };
-    create(storage, {
+    create(queries, {
       t: jwt.token,
     }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        setValues({ ...values, error: "", redirect: true });
+        setValues({
+          ...values,
+          storage: match.params.storageId,
+          error: "",
+          redirect: true,
+        });
       }
     });
   };
 
   if (values.redirect) {
-    //to change
-    return <Redirect to={"/queries"} />;
+    return <Redirect to={"/queriesByStorage/" + match.params.storageId} />;
   }
   return (
     <div>
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h6" className={classes.title}>
-            New Query
+            New Queries
           </Typography>
           <br />
           <TextField
@@ -100,11 +107,29 @@ export default function NewStorage() {
           />
           <br />
           <TextField
-            id="amount"
-            label="Amount"
-            value={values.amount}
-            onChange={handleChange("amount")}
+            id="demand"
+            label="Demand"
+            value={values.demand}
+            onChange={handleChange("demand")}
             className={classes.textField}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="collected"
+            label="Collected"
+            className={classes.textField}
+            value={values.collected}
+            onChange={handleChange("collected")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="unitOfMeasure"
+            label="UnitOfMeasure"
+            className={classes.textField}
+            value={values.unitOfMeasure}
+            onChange={handleChange("unitOfMeasure")}
             margin="normal"
           />
           <br />
@@ -117,15 +142,7 @@ export default function NewStorage() {
             margin="normal"
           />
           <br />
-          <TextField
-            id="storage"
-            label="Storage"
-            className={classes.textField}
-            value={values.storage}
-            onChange={handleChange("storage")}
-            margin="normal"
-          />
-          <br />
+
           {values.error && (
             <Typography component="p" color="error">
               <Icon color="error" className={classes.error}>

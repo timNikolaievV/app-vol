@@ -16,9 +16,6 @@ const create = async (req, res) => {
   }
 };
 
-/**
- * Load storage and append to req.
- */
 const storageByID = async (req, res, next, id) => {
   try {
     let storage = await Storage.findById(id);
@@ -58,8 +55,7 @@ const update = async (req, res) => {
     storage = extend(storage, req.body);
     storage.updated = Date.now();
     await storage.save();
-    storage.hashed_password = undefined;
-    storage.salt = undefined;
+
     res.json(storage);
   } catch (err) {
     return res.status(400).json({
@@ -72,8 +68,7 @@ const remove = async (req, res) => {
   try {
     let storage = req.storage;
     let deletedStorage = await storage.remove();
-    deletedStorage.hashed_password = undefined;
-    deletedStorage.salt = undefined;
+
     res.json(deletedStorage);
   } catch (err) {
     return res.status(400).json({

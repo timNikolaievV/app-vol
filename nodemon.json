@@ -1,7 +1,5 @@
 {
-    "verbose": false,
-    "watch": [
-      "./server"
-    ],
-    "exec": "node_modules/.bin/webpack --mode=development --config webpack.config.server.js && node ./dist/server.generated.js"
+  "verbose": false,
+  "watch": ["./server"],
+  "exec": "node_modules/.bin/webpack --mode=development --config webpack.config.server.js && node ./dist/server.generated.js"
 }

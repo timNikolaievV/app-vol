@@ -17,7 +17,7 @@ const create = async (req, res) => {
   }
 };
 
-const queryeByID = async (req, res, next, id) => {
+const queryByID = async (req, res, next, id) => {
   try {
     let query = await Query.findById(id);
     if (!query)
@@ -35,7 +35,6 @@ const queryeByID = async (req, res, next, id) => {
 
 const listByStorage = async (req, res) => {
   try {
-    
     let storage = await Storage.findById("638871ee41d0942700c1d243");
     let queries = await Query.find({ query: req.query._id }).populate(
       "query",
@@ -84,8 +83,6 @@ const listCategories = async (req, res) => {
 //     query = extend(query, req.body);
 //     query.updated = Date.now();
 //     await query.save();
-//     query.hashed_password = undefined;
-//     query.salt = undefined;
 //     res.json(query);
 //   } catch (err) {
 //     return res.status(400).json({
@@ -98,8 +95,6 @@ const listCategories = async (req, res) => {
 //   try {
 //     let query = req.query;
 //     let deletedQuery = await query.remove();
-//     deletedQuery.hashed_password = undefined;
-//     deletedQuery.salt = undefined;
 //     res.json(deletedQuery);
 //   } catch (err) {
 //     return res.status(400).json({
@@ -110,7 +105,7 @@ const listCategories = async (req, res) => {
 
 export default {
   create,
-  queryeByID,
+  queryByID,
   listByStorage,
   listCategories,
   // read,

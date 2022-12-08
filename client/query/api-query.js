@@ -1,4 +1,4 @@
-const create = async (storage) => {
+const create = async (storage,credentials) => {
   try {
     let response = await fetch("/api/queries/", {
       method: "POST",

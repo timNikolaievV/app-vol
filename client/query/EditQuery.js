@@ -89,8 +89,10 @@ export default function EditStorage({ match }) {
 
   const [values, setValues] = useState({
     name: "",
-    location: "",
-    contactPerson: "",
+    demand: "",
+    collected: "",
+    unitOfMeasure: "",
+    category: "",
     redirect: false,
     error: "",
   });
@@ -106,8 +108,10 @@ export default function EditStorage({ match }) {
         setValues({
           ...values,
           name: data.name,
-          location: data.location,
-          contactPerson: data.contactPerson,
+          demand: data.demand,
+          collected: data.collected,
+          unitOfMeasure: data.unitOfMeasure,
+          category: data.category,
         });
       }
     });
@@ -121,8 +125,8 @@ export default function EditStorage({ match }) {
   const clickSubmit = () => {
     const storage = {
       name: values.name || undefined,
-      location: values.location || undefined,
-      contactPerson: values.contactPerson || undefined,
+      demand: values.demand || undefined,
+      collected: values.collected || undefined,
     };
     update(
       {
@@ -165,20 +169,20 @@ export default function EditStorage({ match }) {
           />
           <br />
           <TextField
-            id="location"
-            label="Location"
-            value={values.location}
-            onChange={handleChange("location")}
+            id="demand"
+            label="Demand"
+            value={values.demand}
+            onChange={handleChange("demand")}
             className={classes.textField}
             margin="normal"
           />
           <br />
           <TextField
-            id="contactPerson"
-            label="ContactPerson"
+            id="collected"
+            label="Collected"
             className={classes.textField}
-            value={values.contactPerson}
-            onChange={handleChange("contactPerson")}
+            value={values.collected}
+            onChange={handleChange("collected")}
             margin="normal"
           />
           <br />

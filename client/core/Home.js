@@ -4,7 +4,6 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
-import unicornbikeImg from "./../assets/images/unicornbike.jpg";
 import StorageList from "../storage/StorageList";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,10 +37,6 @@ export default function Home() {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
-      <Typography variant="h6" className={classes.title}>
-        Storage
-      </Typography>
-
       <CardContent>
         <Typography variant="body1" component="p">
           <StorageList />
