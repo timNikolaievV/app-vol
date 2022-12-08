@@ -16,7 +16,6 @@ import Storage from "./storage/Storage";
 import QueriesByStorage from "./query/QueriesByStorage";
 import NewQuery from "./query/NewQuery";
 
-import Categories from "./category/Categories";
 
 const MainRouter = () => {
   return (
@@ -36,7 +35,6 @@ const MainRouter = () => {
         <PrivateRoute path="/storage/:storageId" component={Storage} />
         <PrivateRoute path="/storages" component={Storages} />
 
-        <PrivateRoute path="/category" component={Categories} />
 
         <PrivateRoute
           path="/queriesByStorage/:storageId/new"

@@ -8,7 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import SearchIcon from '@material-ui/icons/Search'
 import {list} from './api-query'
-import Queries from './QueriesByStorage'
+import Queries from './Queries'
 
 const useStyles = makeStyles(theme => ({
   card: {
