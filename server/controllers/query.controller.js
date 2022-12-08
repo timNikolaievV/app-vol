@@ -35,7 +35,8 @@ const queryByID = async (req, res, next, id) => {
 
 const listByStorage = async (req, res) => {
   try {
-    let storage = await Storage.findById("638871ee41d0942700c1d243");
+    console.log(req.query.storageId);
+    let storage = await Storage.findById(req.storage._id);
     let queries = await Query.find({ query: req.query._id }).populate(
       "query",
       "_id name"
@@ -64,44 +65,31 @@ const listCategories = async (req, res) => {
 //   return res.json(req.query);
 // };
 
-// const list = async (req, res) => {
-//   try {
-//     let querys = await Query.find().select(
-//       "name location contactPerson updated created"
-//     );
-//     res.json(querys);
-//   } catch (err) {
-//     return res.status(400).json({
-//       error: errorHandler.getErrorMessage(err),
-//     });
-//   }
-// };
+const update = async (req, res) => {
+  try {
+    let query = req.query;
+    query = extend(query, req.body);
+    query.updated = Date.now();
+    await query.save();
+    res.json(query);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
 
-// const update = async (req, res) => {
-//   try {
-//     let query = req.query;
-//     query = extend(query, req.body);
-//     query.updated = Date.now();
-//     await query.save();
-//     res.json(query);
-//   } catch (err) {
-//     return res.status(400).json({
-//       error: errorHandler.getErrorMessage(err),
-//     });
-//   }
-// };
-
-// const remove = async (req, res) => {
-//   try {
-//     let query = req.query;
-//     let deletedQuery = await query.remove();
-//     res.json(deletedQuery);
-//   } catch (err) {
-//     return res.status(400).json({
-//       error: errorHandler.getErrorMessage(err),
-//     });
-//   }
-// };
+const remove = async (req, res) => {
+  try {
+    let query = req.query;
+    let deletedQuery = await query.remove();
+    res.json(deletedQuery);
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err),
+    });
+  }
+};
 
 export default {
   create,
@@ -109,7 +97,6 @@ export default {
   listByStorage,
   listCategories,
   // read,
-  // list,
-  // remove,
-  // update,
+  remove,
+  update,
 };

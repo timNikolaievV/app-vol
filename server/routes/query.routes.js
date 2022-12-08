@@ -6,12 +6,16 @@ import storageCtrl from "../controllers/storage.controller";
 const router = express.Router();
 
 router
-  .route("/api/queries/by/:storageId")
+  .route("/api/storages/:storageId/queries")
+  .get(queryCtrl.listByStorage)
+  .post(queryCtrl.create);
+// authCtrl.requireSignin,
 
-  .get(queryCtrl.listByStorage);
-
-router.route("/api/queries").post(queryCtrl.create); // authCtrl.requireSignin,
-router.route("/api/queries/categories").get(queryCtrl.listCategories);
+router
+  .route("/api/storages/:storageId/queries/:querieId")
+  .put(queryCtrl.update)
+  .delete(queryCtrl.remove);
+router.route("/api/categories").get(queryCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);
 //router.param("queryId", queryCtrl.queryByID);
