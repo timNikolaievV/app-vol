@@ -17,6 +17,14 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
+import DeleteQuery from "./DeleteQuery";
+import auth from "./../auth/auth-helper";
+import Edit from "@material-ui/icons/Edit";
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
+
+
+
 import { Link } from "react-router-dom";
 import { listCategories, listByStorage } from "./api-query.js";
 
@@ -69,12 +77,15 @@ export default function QueriesByStorage({ match }) {
   const classes = useStyles();
   const [categories, setCategories] = useState([]);
 
+ 
   const [values, setValues] = useState({
     category: "",
     search: "",
     results: [],
     storage: { _id: "", name: "" },
     searched: false,
+    redirect: false,
+    error: "",
   });
 
   useEffect(() => {
@@ -143,6 +154,11 @@ export default function QueriesByStorage({ match }) {
       search();
     }
   };
+
+
+  const removeQuery = () => {
+    setValues({ ...values, redirect: true });
+  };
   return (
     <div>
       <Paper>
@@ -196,24 +212,37 @@ export default function QueriesByStorage({ match }) {
           <List dense>
             {values.results.map((item, i) => {
               return (
-                <Link
-                  to={`/storages/${values.storage._id}/queries/${item._id}`}
-                  key={i}
-                >
-                  <ListItem button>
-                    <ListItemText primary={item.name} />
-                    <ListItemText primary={item.demand} />
-                    <ListItemText primary={item.collected} />
-                    <ListItemText primary={item.unitOfMeasure} />
-                    <ListItemText primary={item.category} />
-                    <ListItemText primary={item.storage} />
-                    <ListItemSecondaryAction>
-                      <IconButton>
-                        <ArrowForward />
-                      </IconButton>
-                    </ListItemSecondaryAction>
-                  </ListItem>
-                </Link>
+                <ListItem button>
+                  <ListItemText primary={item.name} />
+                  <ListItemText primary={item.demand} />
+                  <ListItemText primary={item.collected} />
+                  <ListItemText primary={item.unitOfMeasure} />
+                  <ListItemText primary={item.category} />
+                  <ListItemSecondaryAction>
+                    <>
+                      {auth.isAuthenticated().user && (
+                        <span className={classes.action}>
+                          <IconButton aria-label="AddIcon" color="secondary">
+                              <AddIcon />
+                            </IconButton>
+                            <IconButton aria-label="RemoveIcon" color="secondary">
+                              <RemoveIcon />
+                            </IconButton>
+                          <Link
+                            to={`/storages/${values.storage}/queries/edit/${values._id}`}
+                          >
+                            
+                            <IconButton aria-label="Edit" color="secondary">
+                              <Edit />
+                            </IconButton>
+                          </Link>
+
+                          <DeleteQuery query={values} onRemove={removeQuery} />
+                        </span>
+                      )}
+                    </>
+                  </ListItemSecondaryAction>
+                </ListItem>
               );
             })}
           </List>
