@@ -1,12 +1,12 @@
-const create = async (storage, credentials) => {
+const create = async (query, credentials) => {
   try {
-    let response = await fetch(`/api/storages/${storage.storageId}/queries`, {
+    let response = await fetch(`/api/storages/${query.storage}/queries`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(storage),
+      body: JSON.stringify(query),
     });
     return await response.json();
   } catch (err) {
@@ -25,7 +25,6 @@ const list = async (signal) => {
     console.log(err);
   }
 };
-
 const listByStorage = async (params, signal) => {
   try {
     let response = await fetch(`/api/storages/${params.storageId}/queries`, {
@@ -49,34 +48,40 @@ const listCategories = async (signal) => {
     console.log(err);
   }
 };
-// const read = async (params, credentials, signal) => {
-//   try {
-//     let response = await fetch("/api/queries/" + params.storageId, {
-//       method: "GET",
-//       signal: signal,
-//       headers: {
-//         Accept: "application/json",
-//         "Content-Type": "application/json",
-//         Authorization: "Bearer " + credentials.t,
-//       },
-//     });
-//     return await response.json();
-//   } catch (err) {
-//     console.log(err);
-//   }
-// };
 
+const read = async (params, credentials, signal) => {
+  try {
+    let response = await fetch(
+      `/api/storages/${params.storageId}/queries${params.queryId}`,
+      {
+        method: "GET",
+        signal: signal,
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+      }
+    );
+    return await response.json();
+  } catch (err) {
+    console.log(err);
+  }
+};
 const update = async (params, credentials, storage) => {
   try {
-    let response = await fetch("/api/queries/" + params.storageId, {
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
-      },
-      body: JSON.stringify(storage),
-    });
+    let response = await fetch(
+      `/api/storages/${params.storageId}/queries/${params.queryId}`,
+      {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+        body: JSON.stringify(storage),
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
@@ -85,19 +90,22 @@ const update = async (params, credentials, storage) => {
 
 const remove = async (params, credentials) => {
   try {
-    let response = await fetch("/api/queries/" + params.storageId, {
-      method: "DELETE",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + credentials.t,
-      },
-    });
+    let response = await fetch(
+      `/api/storages/${params.storageId}/queries/${params.queryId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + credentials.t,
+        },
+      }
+    );
     return await response.json();
   } catch (err) {
     console.log(err);
   }
 };
 
-export { create, listByStorage, list, listCategories };
-//list, read, update, remove
+export { create, listByStorage, list, listCategories, update, remove, read };
+//list,

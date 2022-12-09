@@ -36,6 +36,33 @@ const useStyles = makeStyles((theme) => ({
   leftIcon: {
     marginRight: "8px",
   },
+  card: {
+    margin: "auto",
+    textAlign: "center",
+    paddingTop: 10,
+  },
+  menu: {
+    width: 200,
+  },
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 130,
+    verticalAlign: "bottom",
+    marginBottom: "20px",
+  },
+  searchField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: 300,
+    marginBottom: "20px",
+  },
+  searchButton: {
+    minWidth: "20px",
+    height: "30px",
+    padding: "0 8px",
+    marginBottom: "20px",
+  },
 }));
 
 export default function QueriesByStorage({ match }) {
@@ -169,7 +196,10 @@ export default function QueriesByStorage({ match }) {
           <List dense>
             {values.results.map((item, i) => {
               return (
-                <Link to={"/query/" + item._id} key={i}>
+                <Link
+                  to={`/queriesByStorage/${values.storage._id}` + item._id}
+                  key={i}
+                >
                   <ListItem button>
                     <ListItemText primary={item.name} />
                     <ListItemText primary={item.demand} />

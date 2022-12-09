@@ -12,9 +12,10 @@ router
 // authCtrl.requireSignin,
 
 router
-  .route("/api/storages/:storageId/queries/:querieId")
+  .route("/api/storages/:storageId/queries/:queryId")
   .put(queryCtrl.update)
-  .delete(queryCtrl.remove);
+  .delete(queryCtrl.remove)
+  .get(queryCtrl.queryByID);
 router.route("/api/categories").get(queryCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);

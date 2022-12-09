@@ -68,7 +68,7 @@ export default function NewQueries({ match }) {
       collected: values.collected || undefined,
       unitOfMeasure: values.unitOfMeasure || undefined,
       category: values.category || undefined,
-      storage: values.storage || undefined,
+      storage: match.params.storageId || undefined,
     };
     create(queries, {
       t: jwt.token,
@@ -78,7 +78,6 @@ export default function NewQueries({ match }) {
       } else {
         setValues({
           ...values,
-          storage: match.params.storageId,
           error: "",
           redirect: true,
         });

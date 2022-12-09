@@ -36,8 +36,9 @@ const queryByID = async (req, res, next, id) => {
 const listByStorage = async (req, res) => {
   try {
     console.log(req.query.storageId);
-    let storage = await Storage.findById(req.storage._id);
-    let queries = await Query.find({ query: req.query._id }).populate(
+    console.log(req.query.create)
+    let storage = await Storage.findById("638871ee41d0942700c1d243");
+    let queries = await Query.find({ storage: req.storage._id }).populate(
       "query",
       "_id name"
     );
