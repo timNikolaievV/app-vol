@@ -186,7 +186,7 @@ export default function QueriesByStorage({ match }) {
             <SearchIcon />
           </Button>
           <span className={classes.addButton}>
-            <Link to={`/queriesByStorage/${values.storage._id}/new`}>
+            <Link to={`/storages/${values.storage._id}/queries/new`}>
               <Button color="primary" variant="contained">
                 <Icon className={classes.leftIcon}>add_box</Icon> New Query
               </Button>
@@ -197,7 +197,7 @@ export default function QueriesByStorage({ match }) {
             {values.results.map((item, i) => {
               return (
                 <Link
-                  to={`/queriesByStorage/${values.storage._id}` + item._id}
+                  to={`/storages/${values.storage._id}/queries/${item._id}`}
                   key={i}
                 >
                   <ListItem button>

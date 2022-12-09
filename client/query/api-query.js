@@ -52,7 +52,7 @@ const listCategories = async (signal) => {
 const read = async (params, credentials, signal) => {
   try {
     let response = await fetch(
-      `/api/storages/${params.storageId}/queries${params.queryId}`,
+      `/api/storages/${params.storageId}/queries/${params.queryId}`,
       {
         method: "GET",
         signal: signal,

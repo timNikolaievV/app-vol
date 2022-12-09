@@ -52,11 +52,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Query({ match }) {
   const [values, setValues] = useState({
+    _id: "",
     name: "",
     demand: "",
     collected: "",
     unitOfMeasure: "",
     category: "",
+    storage: "",
     redirect: false,
     error: "",
   });
@@ -67,26 +69,30 @@ export default function Query({ match }) {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    read({ storageId: match.params.storageId }, { t: jwt.token }, signal).then(
-      (data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({
-            ...values,
-            name: data.name,
-            demand: data.demand,
-            collected: data.collected,
-            unitOfMeasure: data.unitOfMeasure,
-            category: data.category,
-          });
-        }
+    read(
+      { queryId: match.params.queryId, storageId: match.params.storageId },
+      { t: jwt.token },
+      signal
+    ).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          _id: data._id,
+          name: data.name,
+          demand: data.demand,
+          collected: data.collected,
+          unitOfMeasure: data.unitOfMeasure,
+          category: data.category,
+          storage: data.storage,
+        });
       }
-    );
+    });
     return function cleanup() {
       abortController.abort();
     };
-  }, [match.params.storageId]);
+  }, [match.params.queryId, match.params.storageId]);
 
   const removeQuery = () => {
     setValues({ ...values, redirect: true });
@@ -108,7 +114,9 @@ export default function Query({ match }) {
             <>
               {auth.isAuthenticated().user && (
                 <span className={classes.action}>
-                  <Link to={"/query/edit/" + values._id}>
+                  <Link
+                    to={`/storages/${values.storage}/queries/edit/${values._id}`}
+                  >
                     <IconButton aria-label="Edit" color="secondary">
                       <Edit />
                     </IconButton>

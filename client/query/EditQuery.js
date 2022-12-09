@@ -20,7 +20,7 @@ import Grid from "@material-ui/core/Grid";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 
-import { read, update } from "./api-storage.js";
+import { read, update } from "./api-query.js";
 import { Link, Redirect } from "react-router-dom";
 import auth from "./../auth/auth-helper";
 import Divider from "@material-ui/core/Divider";
@@ -84,7 +84,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditStorage({ match }) {
+export default function EditQuery({ match }) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
@@ -101,7 +101,7 @@ export default function EditStorage({ match }) {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    read({ storageId: match.params.storageId }, signal).then((data) => {
+    read({ queryId: match.params.queryId }, signal).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -118,24 +118,24 @@ export default function EditStorage({ match }) {
     return function cleanup() {
       abortController.abort();
     };
-  }, [match.params.storageId]);
+  }, [match.params.queryId]);
 
   const jwt = auth.isAuthenticated();
 
   const clickSubmit = () => {
-    const storage = {
+    const query = {
       name: values.name || undefined,
       demand: values.demand || undefined,
       collected: values.collected || undefined,
     };
     update(
       {
-        storageId: match.params.storageId,
+        queryId: match.params.queryId,
       },
       {
         t: jwt.token,
       },
-      storage
+      query
     ).then((data) => {
       if (data && data.error) {
         console.log(data.error);
@@ -146,7 +146,7 @@ export default function EditStorage({ match }) {
     });
   };
   if (values.redirect) {
-    return <Redirect to={"/storage/" + values._id} />;
+    return <Redirect to={"/query/" + values._id} />;
   }
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -156,7 +156,7 @@ export default function EditStorage({ match }) {
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h6" className={classes.title}>
-            Edit Storage
+            Edit Query
           </Typography>
           <br />
           <TextField
@@ -204,7 +204,7 @@ export default function EditStorage({ match }) {
           >
             Update
           </Button>
-          <Link to="/storages" className={classes.submit}>
+          <Link to="/querys" className={classes.submit}>
             <Button variant="contained">Cancel</Button>
           </Link>
         </CardActions>

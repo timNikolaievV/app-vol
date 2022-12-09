@@ -16,16 +16,14 @@ const create = async (req, res) => {
     });
   }
 };
-
-const queryByID = async (req, res, next, id) => {
+const read = async (req, res) => {
   try {
-    let query = await Query.findById(id);
+    let query = await Query.findById(req.params.queryId);
     if (!query)
       return res.status("400").json({
         error: "Query not found",
       });
-    req.query = query;
-    next();
+    res.json(query);
   } catch (err) {
     return res.status("400").json({
       error: "Could not retrieve query",
@@ -35,9 +33,7 @@ const queryByID = async (req, res, next, id) => {
 
 const listByStorage = async (req, res) => {
   try {
-    console.log(req.query.storageId);
-    console.log(req.query.create)
-    let storage = await Storage.findById("638871ee41d0942700c1d243");
+    let storage = await Storage.findById(req.storage._id);
     let queries = await Query.find({ storage: req.storage._id }).populate(
       "query",
       "_id name"
@@ -82,7 +78,11 @@ const update = async (req, res) => {
 
 const remove = async (req, res) => {
   try {
-    let query = req.query;
+    let query = await Query.findById(id);
+    if (!query)
+      return res.status("400").json({
+        error: "Query not found",
+      });
     let deletedQuery = await query.remove();
     res.json(deletedQuery);
   } catch (err) {
@@ -94,10 +94,9 @@ const remove = async (req, res) => {
 
 export default {
   create,
-  queryByID,
+  read,
   listByStorage,
   listCategories,
-  // read,
   remove,
   update,
 };

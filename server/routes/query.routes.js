@@ -15,10 +15,11 @@ router
   .route("/api/storages/:storageId/queries/:queryId")
   .put(queryCtrl.update)
   .delete(queryCtrl.remove)
-  .get(queryCtrl.queryByID);
+  .get(queryCtrl.read);
+
 router.route("/api/categories").get(queryCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);
-//router.param("queryId", queryCtrl.queryByID);
+//router.param("queryId", queryCtrl.read);
 
 export default router;

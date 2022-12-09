@@ -22,6 +22,7 @@ export default function DeleteQuery(props) {
     remove(
       {
         queryId: props.query._id,
+        storageId: props.query.storage,
       },
       { t: jwt.token }
     ).then((data) => {
@@ -53,11 +54,7 @@ export default function DeleteQuery(props) {
           <Button onClick={handleRequestClose} color="primary">
             Cancel
           </Button>
-          <Button
-            onClick={deleteQuery}
-            color="secondary"
-            autoFocus="autoFocus"
-          >
+          <Button onClick={deleteQuery} color="secondary" autoFocus="autoFocus">
             Confirm
           </Button>
         </DialogActions>
