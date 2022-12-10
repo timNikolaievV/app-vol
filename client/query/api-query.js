@@ -1,3 +1,5 @@
+import queryString from "query-string";
+
 const create = async (query, credentials) => {
   try {
     let response = await fetch(`/api/storages/${query.storage}/queries`, {
@@ -27,10 +29,14 @@ const list = async (signal) => {
 };
 const listByStorage = async (params, signal) => {
   try {
-    let response = await fetch(`/api/storages/${params.storageId}/queries`, {
-      method: "GET",
-      signal: signal,
-    });
+    const query = queryString.stringify(params);
+    let response = await fetch(
+      `/api/storages/${params.storageId}/queries?` + query,
+      {
+        method: "GET",
+        signal: signal,
+      }
+    );
     return response.json();
   } catch (err) {
     console.log(err);
@@ -68,7 +74,7 @@ const read = async (params, credentials, signal) => {
     console.log(err);
   }
 };
-const update = async (params, credentials, storage) => {
+const update = async (params, credentials, query) => {
   try {
     let response = await fetch(
       `/api/storages/${params.storageId}/queries/${params.queryId}`,
@@ -79,7 +85,7 @@ const update = async (params, credentials, storage) => {
           "Content-Type": "application/json",
           Authorization: "Bearer " + credentials.t,
         },
-        body: JSON.stringify(storage),
+        body: JSON.stringify(query),
       }
     );
     return await response.json();

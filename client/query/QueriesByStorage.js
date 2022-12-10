@@ -17,16 +17,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import SearchIcon from "@material-ui/icons/Search";
-import DeleteQuery from "./DeleteQuery";
 import auth from "./../auth/auth-helper";
 import Edit from "@material-ui/icons/Edit";
-import AddIcon from '@material-ui/icons/Add';
-import RemoveIcon from '@material-ui/icons/Remove';
-
-
+import Checkbox from "@material-ui/core/Checkbox";
 
 import { Link } from "react-router-dom";
 import { listCategories, listByStorage } from "./api-query.js";
+
+import DeleteQuery from "./DeleteQuery";
+import UpdateCollected from "./UpdateCollected";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -76,11 +75,10 @@ const useStyles = makeStyles((theme) => ({
 export default function QueriesByStorage({ match }) {
   const classes = useStyles();
   const [categories, setCategories] = useState([]);
-
- 
   const [values, setValues] = useState({
     category: "",
     search: "",
+    collectedNotZero: false,
     results: [],
     storage: { _id: "", name: "" },
     searched: false,
@@ -130,23 +128,33 @@ export default function QueriesByStorage({ match }) {
   const handleChange = (name) => (event) => {
     setValues({
       ...values,
-      [name]: event.target.value,
+      [name]:
+        name === "collectedNotZero"
+          ? event.target.checked
+          : event.target.values,
     });
   };
 
   const search = () => {
-    if (values.search) {
-      list({
-        search: values.search || undefined,
-        category: values.category,
-      }).then((data) => {
-        if (data.error) {
-          console.log(data.error);
-        } else {
-          setValues({ ...values, results: data, searched: true });
-        }
-      });
-    }
+    // if (values.search) {
+    listByStorage({
+      storageId: values.storage._id,
+      search: values.search || undefined,
+      category: values.category,
+      collectedNotZero: values.collectedNotZero,
+    }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setValues({
+          ...values,
+          results: data.queries,
+          storage: data.storage,
+          searched: true,
+        });
+      }
+    });
+    // }
   };
   const enterKey = (event) => {
     if (event.keyCode == 13) {
@@ -155,10 +163,22 @@ export default function QueriesByStorage({ match }) {
     }
   };
 
-
-  const removeQuery = () => {
-    setValues({ ...values, redirect: true });
+  const removeQuery = (query) => {
+    const data = values.results.filter((x) => x._id !== query._id);
+    setValues({ ...values, results: data });
   };
+
+  const updateQuery = (query) => {
+    const data = values.results.map((x) => {
+      if (x._id === query._id) {
+        x.demand = query.demand;
+        x.collected = query.collected;
+      }
+      return x;
+    });
+    setValues({ ...values, results: data });
+  };
+
   return (
     <div>
       <Paper>
@@ -193,6 +213,14 @@ export default function QueriesByStorage({ match }) {
             className={classes.searchField}
             margin="normal"
           />
+
+          <Checkbox
+            id="collectedNotZero"
+            label="Collected"
+            checked={values.collectedNotZero}
+            onChange={handleChange("collectedNotZero")}
+          />
+
           <Button
             variant="contained"
             color={"primary"}
@@ -201,6 +229,7 @@ export default function QueriesByStorage({ match }) {
           >
             <SearchIcon />
           </Button>
+
           <span className={classes.addButton}>
             <Link to={`/storages/${values.storage._id}/queries/new`}>
               <Button color="primary" variant="contained">
@@ -212,7 +241,7 @@ export default function QueriesByStorage({ match }) {
           <List dense>
             {values.results.map((item, i) => {
               return (
-                <ListItem button>
+                <ListItem button key={i}>
                   <ListItemText primary={item.name} />
                   <ListItemText primary={item.demand} />
                   <ListItemText primary={item.collected} />
@@ -222,22 +251,27 @@ export default function QueriesByStorage({ match }) {
                     <>
                       {auth.isAuthenticated().user && (
                         <span className={classes.action}>
-                          <IconButton aria-label="AddIcon" color="secondary">
-                              <AddIcon />
-                            </IconButton>
-                            <IconButton aria-label="RemoveIcon" color="secondary">
-                              <RemoveIcon />
-                            </IconButton>
+                          <UpdateCollected
+                            query={item}
+                            onUpdateCollected={updateQuery}
+                          />
+
                           <Link
-                            to={`/storages/${values.storage}/queries/edit/${values._id}`}
+                            to={`/storages/${item.storage}/queries/edit/${item._id}`}
                           >
-                            
                             <IconButton aria-label="Edit" color="secondary">
                               <Edit />
                             </IconButton>
                           </Link>
 
-                          <DeleteQuery query={values} onRemove={removeQuery} />
+                          <DeleteQuery
+                            query={{
+                              name: item.name,
+                              _id: item._id,
+                              storage: item.storage,
+                            }}
+                            onRemove={removeQuery}
+                          />
                         </span>
                       )}
                     </>

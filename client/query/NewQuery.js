@@ -11,6 +11,10 @@ import Icon from "@material-ui/core/Icon";
 import { makeStyles } from "@material-ui/core/styles";
 import { create } from "./api-query.js";
 import { Link, Redirect } from "react-router-dom";
+import MenuItem from "@material-ui/core/MenuItem";
+
+
+import Categories from "./Categories";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -57,6 +61,7 @@ export default function NewQueries({ match }) {
     error: "",
   });
   const jwt = auth.isAuthenticated();
+
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -134,14 +139,20 @@ export default function NewQueries({ match }) {
           <br />
           <TextField
             id="category"
+            select
             label="Category"
             className={classes.textField}
             value={values.category}
             onChange={handleChange("category")}
             margin="normal"
-          />
+          >
+            {Categories().map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}{" "}
+          </TextField>
           <br />
-
           {values.error && (
             <Typography component="p" color="error">
               <Icon color="error" className={classes.error}>

@@ -16,7 +16,6 @@ import Storage from "./storage/Storage";
 import QueriesByStorage from "./query/QueriesByStorage";
 import NewQuery from "./query/NewQuery";
 import EditQuery from "./query/EditQuery";
-import Query from "./query/Query";
 
 const MainRouter = () => {
   return (
@@ -31,12 +30,11 @@ const MainRouter = () => {
         <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
         <Route path="/user/:userId" component={Profile} />
 
-        <Route path="/storages/:storageId/queries/:queryId" component={Query} />
         <PrivateRoute
           path="/storages/:storageId/queries/new"
           component={NewQuery}
         />
-        <Route
+        <PrivateRoute
           path="/storages/:storageId/queries/edit/:queryId"
           component={EditQuery}
         />

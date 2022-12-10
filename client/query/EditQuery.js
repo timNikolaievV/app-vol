@@ -88,11 +88,13 @@ export default function EditQuery({ match }) {
   const classes = useStyles();
 
   const [values, setValues] = useState({
+    _id: "",
     name: "",
     demand: "",
     collected: "",
     unitOfMeasure: "",
     category: "",
+    storage: "",
     redirect: false,
     error: "",
   });
@@ -101,17 +103,22 @@ export default function EditQuery({ match }) {
     const abortController = new AbortController();
     const signal = abortController.signal;
 
-    read({ queryId: match.params.queryId }, signal).then((data) => {
+    read(
+      { queryId: match.params.queryId, storageId: match.params.storageId },
+      signal
+    ).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({
           ...values,
+          _id: data._id,
           name: data.name,
           demand: data.demand,
           collected: data.collected,
           unitOfMeasure: data.unitOfMeasure,
           category: data.category,
+          storage: data.storage,
         });
       }
     });
@@ -124,13 +131,18 @@ export default function EditQuery({ match }) {
 
   const clickSubmit = () => {
     const query = {
+      _id: values._id || undefined,
       name: values.name || undefined,
       demand: values.demand || undefined,
       collected: values.collected || undefined,
+      unitOfMeasure: values.unitOfMeasure || undefined,
+      category: values.category || undefined,
+      storage: values.storage || undefined,
     };
     update(
       {
         queryId: match.params.queryId,
+        storageId: match.params.storageId,
       },
       {
         t: jwt.token,
@@ -146,7 +158,7 @@ export default function EditQuery({ match }) {
     });
   };
   if (values.redirect) {
-    return <Redirect to={"/query/" + values._id} />;
+    return <Redirect to={"/queriesByStorage/" + values.storage} />;
   }
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -186,6 +198,24 @@ export default function EditQuery({ match }) {
             margin="normal"
           />
           <br />
+          <TextField
+            id="unitOfMeasure"
+            label="UnitOfMeasure"
+            className={classes.textField}
+            value={values.unitOfMeasure}
+            onChange={handleChange("unitOfMeasure")}
+            margin="normal"
+          />
+          <br />
+          <TextField
+            id="category"
+            label="Category"
+            className={classes.textField}
+            value={values.category}
+            onChange={handleChange("category")}
+            margin="normal"
+          />
+          <br />
           {values.error && (
             <Typography component="p" color="error">
               <Icon color="error" className={classes.error}>
@@ -204,7 +234,10 @@ export default function EditQuery({ match }) {
           >
             Update
           </Button>
-          <Link to="/querys" className={classes.submit}>
+          <Link
+            to={"/queriesByStorage/" + values.storage}
+            className={classes.submit}
+          >
             <Button variant="contained">Cancel</Button>
           </Link>
         </CardActions>
