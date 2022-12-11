@@ -42,10 +42,8 @@ const listByStorage = async (req, res) => {
     if (req.query.category && req.query.category != "All")
       query.category = req.query.category;
     if (req.query.collectedNotZero === "true") query.collected = { $gt: 0 };
-    console.log(req.query.collectedNotZero === "true")
     //}
     query.storage = req.storage._id;
-    console.log(query);
     let queries = await Query.find(query).populate("query", "_id name");
     res.json({ queries: queries, storage: storage });
   } catch (err) {

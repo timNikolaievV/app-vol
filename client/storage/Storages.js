@@ -67,6 +67,13 @@ export default function Storages() {
         </span>
       </Typography>
       <List dense>
+          <ListItem >
+            <ListItemText primary={"Name"} />
+            <ListItemText primary={"Location"} />
+            <ListItemText primary={"Person"} />
+          </ListItem>
+        </List>
+      <List dense>
         {storages.map((item, i) => {
           return (
             <Link to={"/storage/" + item._id} key={i}>

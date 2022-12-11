@@ -13,7 +13,6 @@ import { create } from "./api-query.js";
 import { Link, Redirect } from "react-router-dom";
 import MenuItem from "@material-ui/core/MenuItem";
 
-
 import Categories from "./Categories";
 
 const useStyles = makeStyles((theme) => ({
@@ -61,7 +60,6 @@ export default function NewQueries({ match }) {
     error: "",
   });
   const jwt = auth.isAuthenticated();
-
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -171,7 +169,10 @@ export default function NewQueries({ match }) {
           >
             Submit
           </Button>
-          <Link to="/queries" className={classes.submit}>
+          <Link
+            to={"/queriesByStorage/" + match.params.storageId}
+            className={classes.submit}
+          >
             <Button variant="contained">Cancel</Button>
           </Link>
         </CardActions>

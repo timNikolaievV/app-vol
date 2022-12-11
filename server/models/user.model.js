@@ -19,6 +19,10 @@ const UserSchema = new mongoose.Schema({
     default: "user",
     required: "Role is required",
   },
+  isEnabled: {
+    type: Boolean,
+    default: false,
+  },
   hashed_password: {
     type: String,
     required: "Password is required",

@@ -26,6 +26,7 @@ import { listCategories, listByStorage } from "./api-query.js";
 
 import DeleteQuery from "./DeleteQuery";
 import UpdateCollected from "./UpdateCollected";
+import Categories from "./Categories";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   searchField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 300,
+    width: 200,
     marginBottom: "20px",
   },
   searchButton: {
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QueriesByStorage({ match }) {
   const classes = useStyles();
-  const [categories, setCategories] = useState([]);
+  //const [categories, setCategories] = useState([]);
   const [values, setValues] = useState({
     category: "",
     search: "",
@@ -110,28 +111,13 @@ export default function QueriesByStorage({ match }) {
     };
   }, [match.params.storageId]);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-    listCategories(signal).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setCategories(data);
-      }
-    });
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, []);
+
 
   const handleChange = (name) => (event) => {
     setValues({
       ...values,
       [name]:
-        name === "collectedNotZero"
-          ? event.target.checked
-          : event.target.values,
+        name === "collectedNotZero" ? event.target.checked : event.target.value,
     });
   };
 
@@ -178,58 +164,58 @@ export default function QueriesByStorage({ match }) {
     });
     setValues({ ...values, results: data });
   };
-
+console.log(auth.isAuthenticated())
   return (
     <div>
-      <Paper>
-        <Card className={classes.card}>
-          <TextField
-            id="select-category"
-            select
-            label="Select category"
-            className={classes.textField}
-            value={values.category}
-            onChange={handleChange("category")}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            margin="normal"
-          >
-            <MenuItem value="All">All</MenuItem>
-            {categories.map((option) => (
-              <MenuItem key={option} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="search"
-            label="Search queries"
-            type="search"
-            onKeyDown={enterKey}
-            onChange={handleChange("search")}
-            className={classes.searchField}
-            margin="normal"
-          />
+      <Paper className={classes.root} elevation={4}>
+        <TextField
+          id="select-category"
+          select
+          label="Select category"
+          className={classes.textField}
+          value={values.category}
+          onChange={handleChange("category")}
+          SelectProps={{
+            MenuProps: {
+              className: classes.menu,
+            },
+          }}
+          margin="normal"
+        >
+          <MenuItem value="All">All</MenuItem>
+          {Categories().map((option) => (
+            <MenuItem key={option} value={option}>
+              {option}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          id="search"
+          label="Search queries"
+          type="search"
+          onKeyDown={enterKey}
+          onChange={handleChange("search")}
+          className={classes.searchField}
+          margin="normal"
+        />
 
-          <Checkbox
-            id="collectedNotZero"
-            label="Collected"
-            checked={values.collectedNotZero}
-            onChange={handleChange("collectedNotZero")}
-          />
+        <Button
+          variant="contained"
+          color={"primary"}
+          className={classes.searchButton}
+          onClick={search}
+        >
+          <SearchIcon />
+        </Button>
 
-          <Button
-            variant="contained"
-            color={"primary"}
-            className={classes.searchButton}
-            onClick={search}
-          >
-            <SearchIcon />
-          </Button>
-
+        <Typography>Check to see collected queries</Typography>
+        <Checkbox
+          id="collectedNotZero"
+          label="Collected"
+          checked={values.collectedNotZero}
+          onChange={handleChange("collectedNotZero")}
+        />
+        {auth.isAuthenticated() && auth.isAuthenticated().user.isEnabled && (
           <span className={classes.addButton}>
             <Link to={`/storages/${values.storage._id}/queries/new`}>
               <Button color="primary" variant="contained">
@@ -237,50 +223,59 @@ export default function QueriesByStorage({ match }) {
               </Button>
             </Link>
           </span>
-          <Divider />
-          <List dense>
-            {values.results.map((item, i) => {
-              return (
-                <ListItem button key={i}>
-                  <ListItemText primary={item.name} />
-                  <ListItemText primary={item.demand} />
-                  <ListItemText primary={item.collected} />
-                  <ListItemText primary={item.unitOfMeasure} />
-                  <ListItemText primary={item.category} />
-                  <ListItemSecondaryAction>
-                    <>
-                      {auth.isAuthenticated().user && (
-                        <span className={classes.action}>
-                          <UpdateCollected
-                            query={item}
-                            onUpdateCollected={updateQuery}
-                          />
+        )}
+        <List dense>
+          <ListItem>
+            <ListItemText primary={"Name"} />
+            <ListItemText primary={"Demand"} />
+            <ListItemText primary={"Collected"} />
+            <ListItemText primary={"Unit"} />
+            <ListItemText primary={"Category"} />
+          </ListItem>
+        </List>
+        <Divider />
+        <List dense>
+          {values.results.map((item, i) => {
+            return (
+              <ListItem key={i}>
+                <ListItemText primary={item.name} />
+                <ListItemText primary={item.demand} />
+                <ListItemText primary={item.collected} />
+                <ListItemText primary={item.unitOfMeasure} />
+                <ListItemText primary={item.category} />
+                <ListItemSecondaryAction>
+                  <>
+                    {auth.isAuthenticated().user &&  auth.isAuthenticated().user.isEnabled &&(
+                      <span className={classes.action}>
+                        <UpdateCollected
+                          query={item}
+                          onUpdateCollected={updateQuery}
+                        />
 
-                          <Link
-                            to={`/storages/${item.storage}/queries/edit/${item._id}`}
-                          >
-                            <IconButton aria-label="Edit" color="secondary">
-                              <Edit />
-                            </IconButton>
-                          </Link>
+                        <Link
+                          to={`/storages/${item.storage}/queries/edit/${item._id}`}
+                        >
+                          <IconButton aria-label="Edit" color="secondary">
+                            <Edit />
+                          </IconButton>
+                        </Link>
 
-                          <DeleteQuery
-                            query={{
-                              name: item.name,
-                              _id: item._id,
-                              storage: item.storage,
-                            }}
-                            onRemove={removeQuery}
-                          />
-                        </span>
-                      )}
-                    </>
-                  </ListItemSecondaryAction>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Card>
+                        <DeleteQuery
+                          query={{
+                            name: item.name,
+                            _id: item._id,
+                            storage: item.storage,
+                          }}
+                          onRemove={removeQuery}
+                        />
+                      </span>
+                    )}
+                  </>
+                </ListItemSecondaryAction>
+              </ListItem>
+            );
+          })}
+        </List>
       </Paper>
     </div>
   );

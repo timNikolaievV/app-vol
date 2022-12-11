@@ -21,6 +21,7 @@ const auth = {
       document.cookie = "t=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     });
   },
+
   updateUser(user, cb) {
     if (typeof window !== "undefined") {
       if (sessionStorage.getItem("jwt")) {

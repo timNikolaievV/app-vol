@@ -23,9 +23,7 @@ const Menu = withRouter(({ history }) => (
           <HomeIcon />
         </IconButton>
       </Link>
-      <Link to="/users">
-        <Button style={isActive(history, "/users")}>Users</Button>
-      </Link>
+
       {!auth.isAuthenticated() && (
         <span>
           <Link to="/signup">
@@ -43,7 +41,11 @@ const Menu = withRouter(({ history }) => (
               <Button style={isActive(history, "/storages")}>Storages</Button>
             </Link>
           )}
-
+          {auth.inRole("admin") && (
+            <Link to="/users">
+              <Button style={isActive(history, "/users")}>Users</Button>
+            </Link>
+          )}
           <Link to={"/user/" + auth.isAuthenticated().user._id}>
             <Button
               style={isActive(

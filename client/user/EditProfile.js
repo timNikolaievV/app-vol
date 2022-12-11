@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
+import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import auth from "./../auth/auth-helper";
 import { read, update } from "./api-user.js";
@@ -44,6 +45,7 @@ export default function EditProfile({ match }) {
     password: "",
     email: "",
     role: "",
+    isEnabled: false,
     open: false,
     error: "",
     redirectToProfile: false,
@@ -69,6 +71,7 @@ export default function EditProfile({ match }) {
           name: data.name,
           email: data.email,
           role: data.role,
+          isEnabled: data.isEnabled,
         });
       }
     });
@@ -83,6 +86,7 @@ export default function EditProfile({ match }) {
       email: values.email || undefined,
       password: values.password || undefined,
       role: values.role || undefined,
+      isEnabled: values.isEnabled || undefined,
     };
     update(
       {
@@ -101,12 +105,15 @@ export default function EditProfile({ match }) {
     });
   };
   const handleChange = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-  };
+    console.log(values);
+    setValues({
+      ...values,
+      [name]: name === "isEnabled" ? event.target.checked : event.target.value,
+    });
+    console.log(name);
 
-  //   const handleCheck = (event, checked) => {
-  //     setValues({...values, 'educator': checked})
-  //  }
+    console.log(values);
+  };
 
   if (values.redirectToProfile) {
     return <Redirect to={"/user/" + values.userId} />;
@@ -146,16 +153,27 @@ export default function EditProfile({ match }) {
           margin="normal"
         />
         <br />
-        <TextField
-          id="role"
-          type="role"
-          label="Role"
-          className={classes.textField}
-          value={values.role}
-          onChange={handleChange("role")}
-          margin="normal"
-        />
-        <br />{" "}
+        {auth.inRole("admin") && (
+          <TextField
+            id="role"
+            type="role"
+            label="Role"
+            className={classes.textField}
+            value={values.role}
+            onChange={handleChange("role")}
+            margin="normal"
+          />
+        )}
+        <br />
+        {auth.inRole("admin") && (
+          <Checkbox
+            id="isEnabled"
+            label="Enabled"
+            checked={values.isEnabled}
+            onChange={handleChange("isEnabled")}
+          />
+        )}
+        <br />
         {values.error && (
           <Typography component="p" color="error">
             <Icon color="error" className={classes.error}>

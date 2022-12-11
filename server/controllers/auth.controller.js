@@ -23,6 +23,7 @@ const signin = async (req, res) => {
       {
         _id: user._id,
         role: user.role,
+        isEnabled: user.isEnabled,
       },
       config.jwtSecret
     );
@@ -38,6 +39,7 @@ const signin = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isEnabled: user.isEnabled,
       },
     });
   } catch (err) {
@@ -63,7 +65,9 @@ const hasAuthorization = (req, res, next) => {
   const authorized =
     req.profile &&
     req.auth &&
-    (req.profile._id == req.auth._id || req.auth.role == "admin");
+    //req.auth.isEnabled
+    (req.profile._id == req.auth._id || req.auth.role == "admin") &&
+    (req.profile.isEnabled || req.auth.role == "admin");
 
   if (!authorized) {
     return res.status("403").json({
