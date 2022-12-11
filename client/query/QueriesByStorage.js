@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 8px",
     marginBottom: "20px",
   },
+  checkbox: {},
 }));
 
 export default function QueriesByStorage({ match }) {
@@ -110,8 +111,6 @@ export default function QueriesByStorage({ match }) {
       abortController.abort();
     };
   }, [match.params.storageId]);
-
-
 
   const handleChange = (name) => (event) => {
     setValues({
@@ -164,7 +163,7 @@ export default function QueriesByStorage({ match }) {
     });
     setValues({ ...values, results: data });
   };
-console.log(auth.isAuthenticated())
+  console.log(auth.isAuthenticated());
   return (
     <div>
       <Paper className={classes.root} elevation={4}>
@@ -245,31 +244,32 @@ console.log(auth.isAuthenticated())
                 <ListItemText primary={item.category} />
                 <ListItemSecondaryAction>
                   <>
-                    {auth.isAuthenticated().user &&  auth.isAuthenticated().user.isEnabled &&(
-                      <span className={classes.action}>
-                        <UpdateCollected
-                          query={item}
-                          onUpdateCollected={updateQuery}
-                        />
+                    {auth.isAuthenticated().user &&
+                      auth.isAuthenticated().user.isEnabled && (
+                        <span className={classes.action}>
+                          <UpdateCollected
+                            query={item}
+                            onUpdateCollected={updateQuery}
+                          />
 
-                        <Link
-                          to={`/storages/${item.storage}/queries/edit/${item._id}`}
-                        >
-                          <IconButton aria-label="Edit" color="secondary">
-                            <Edit />
-                          </IconButton>
-                        </Link>
+                          <Link
+                            to={`/storages/${item.storage}/queries/edit/${item._id}`}
+                          >
+                            <IconButton aria-label="Edit" color="secondary">
+                              <Edit />
+                            </IconButton>
+                          </Link>
 
-                        <DeleteQuery
-                          query={{
-                            name: item.name,
-                            _id: item._id,
-                            storage: item.storage,
-                          }}
-                          onRemove={removeQuery}
-                        />
-                      </span>
-                    )}
+                          <DeleteQuery
+                            query={{
+                              name: item.name,
+                              _id: item._id,
+                              storage: item.storage,
+                            }}
+                            onRemove={removeQuery}
+                          />
+                        </span>
+                      )}
                   </>
                 </ListItemSecondaryAction>
               </ListItem>

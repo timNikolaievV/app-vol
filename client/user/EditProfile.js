@@ -108,7 +108,7 @@ export default function EditProfile({ match }) {
     console.log(values);
     setValues({
       ...values,
-      [name]: name === "isEnabled" ? event.target.checked : event.target.value,
+      [name]: event.target.value,
     });
     console.log(name);
 
@@ -162,15 +162,20 @@ export default function EditProfile({ match }) {
             value={values.role}
             onChange={handleChange("role")}
             margin="normal"
+            helperText = "Enter user or admin to give the role"
           />
         )}
         <br />
         {auth.inRole("admin") && (
-          <Checkbox
+          <TextField
             id="isEnabled"
-            label="Enabled"
-            checked={values.isEnabled}
+            type="isEnabled"
+            label="IsEnabled"
+            className={classes.textField}
+            value={values.isEnabled}
             onChange={handleChange("isEnabled")}
+            margin="normal"
+            helperText = "Enter true or false to activate account"
           />
         )}
         <br />

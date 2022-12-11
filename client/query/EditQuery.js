@@ -16,14 +16,14 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import Grid from "@material-ui/core/Grid";
+import MenuItem from "@material-ui/core/MenuItem";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 
 import { read, update } from "./api-query.js";
 import { Link, Redirect } from "react-router-dom";
 import auth from "./../auth/auth-helper";
-import Divider from "@material-ui/core/Divider";
+import Categories from "./Categories";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -214,7 +214,13 @@ export default function EditQuery({ match }) {
             value={values.category}
             onChange={handleChange("category")}
             margin="normal"
-          />
+          >
+            {Categories().map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}{" "}
+          </TextField>
           <br />
           {values.error && (
             <Typography component="p" color="error">
