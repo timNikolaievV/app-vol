@@ -30,7 +30,9 @@ export default function DeleteUser(props) {
       if (data && data.error) {
         console.log(data.error);
       } else {
-        auth.clearJWT(() => console.log("deleted"));
+        if (!auth.inRole("admin")) {
+          auth.clearJWT(() => console.log("deleted"));
+        }
         setRedirect(true);
       }
     });
@@ -40,6 +42,9 @@ export default function DeleteUser(props) {
   };
 
   if (redirect) {
+    if (auth.inRole("admin")) {
+      return <Redirect to="/users" />;
+    }
     return <Redirect to="/" />;
   }
   return (
@@ -69,6 +74,6 @@ export default function DeleteUser(props) {
     </span>
   );
 }
-DeleteUser.propTypes = {
-  userId: PropTypes.string.isRequired,
-};
+// DeleteUser.propTypes = {
+//   userId: PropTypes.string.isRequired,
+// };

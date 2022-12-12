@@ -20,13 +20,13 @@ import SearchIcon from "@material-ui/icons/Search";
 import auth from "./../auth/auth-helper";
 import Edit from "@material-ui/icons/Edit";
 import Checkbox from "@material-ui/core/Checkbox";
-
 import { Link } from "react-router-dom";
 import { listCategories, listByStorage } from "./api-query.js";
 
 import DeleteQuery from "./DeleteQuery";
 import UpdateCollected from "./UpdateCollected";
 import Categories from "./Categories";
+import Tooltip from '@material-ui/core/Tooltip';
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -252,9 +252,11 @@ export default function QueriesByStorage({ match }) {
                           <Link
                             to={`/storages/${item.storage}/queries/edit/${item._id}`}
                           >
-                            <IconButton aria-label="Edit" color="secondary">
-                              <Edit />
-                            </IconButton>
+                            <Tooltip title="Edit">
+                              <IconButton aria-label="Edit" color="secondary">
+                                <Edit />
+                              </IconButton>
+                            </Tooltip>
                           </Link>
 
                           <DeleteQuery
