@@ -30,7 +30,7 @@ export default function DeleteQuery(props) {
         console.log(data.error);
       } else {
         setOpen(false);
-       props.onRemove(props.query);
+        props.onRemove(props.query);
       }
     });
   };

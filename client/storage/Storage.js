@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import CardHeader from "@material-ui/core/CardHeader";
 import IconButton from "@material-ui/core/IconButton";
 import Edit from "@material-ui/icons/Edit";
-import Button from "@material-ui/core/Button";
-import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import auth from "./../auth/auth-helper";
-import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
-import Icon from "@material-ui/core/Icon";
 import DeleteStorage from "./DeleteStorage";
 import Divider from "@material-ui/core/Divider";
-
+import Paper from "@material-ui/core/Paper";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
+import ListItemText from "@material-ui/core/ListItemText";
+import Avatar from "@material-ui/core/Avatar";
+import StorageIcon from '@material-ui/icons/Storage';
 import { makeStyles } from "@material-ui/core/styles";
 import { create, read } from "./api-storage.js";
 import { Link, Redirect } from "react-router-dom";
@@ -29,9 +28,15 @@ const useStyles = makeStyles((theme) => ({
   error: {
     verticalAlign: "middle",
   },
+  root: theme.mixins.gutters({
+    maxWidth: 600,
+    margin: "auto",
+    padding: theme.spacing(3),
+    marginTop: theme.spacing(5),
+  }),
   title: {
-    marginTop: theme.spacing(2),
-    color: theme.palette.openTitle,
+    marginTop: theme.spacing(3),
+    color: theme.palette.protectedTitle,
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -88,40 +93,36 @@ export default function Storage({ match }) {
   }
 
   return (
-    <div className={classes.root}>
-      <Card className={classes.card}>
-        <CardHeader
-          title={storage.name}
-          action={
-            <>
-              {auth.isAuthenticated().user && (
-                <span className={classes.action}>
-                  <Link to={"/storage/edit/" + storage._id}>
-                    <IconButton aria-label="Edit" color="secondary">
-                      <Edit />
-                    </IconButton>
-                  </Link>
-
-                  <DeleteStorage storage={storage} onRemove={removeStorage} />
-                </span>
-              )}
-            </>
-          }
-        />
-
-        <div className={classes.details}>
-          <Typography variant="body1" className={classes.subheading}>
-            {storage.location}
-            <br />
-          </Typography>
-
-          <Typography variant="body1" className={classes.subheading}>
-            {storage.contactPerson}
-            <br />
-          </Typography>
-        </div>
+    <Paper className={classes.root} elevation={4}>
+      <Typography variant="h6" className={classes.title}>
+      {storage.name}
+      </Typography>
+      <List dense>
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar>
+              <StorageIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={storage.contactPerson} secondary={storage.location} />{" "}
+          {auth.isAuthenticated().user && (
+            <ListItemSecondaryAction>
+              <Link to={"/storage/edit/" + storage._id}>
+                <IconButton aria-label="Edit" color="primary">
+                  <Edit />
+                </IconButton>
+              </Link>
+              <DeleteStorage storage={storage} onRemove={removeStorage} />
+            </ListItemSecondaryAction>
+          )}
+        </ListItem>
         <Divider />
-      </Card>
-    </div>
+        <ListItem>
+          <ListItemText
+            primary={"Created: " + new Date(storage.created).toDateString()}
+          />
+        </ListItem>
+      </List>
+    </Paper>
   );
 }

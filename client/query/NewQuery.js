@@ -3,7 +3,6 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
-import FileUpload from "@material-ui/icons/AddPhotoAlternate";
 import auth from "./../auth/auth-helper";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";

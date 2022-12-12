@@ -65,7 +65,6 @@ const hasAuthorization = (req, res, next) => {
   const authorized =
     req.profile &&
     req.auth &&
-    //req.auth.isEnabled
     (req.profile._id == req.auth._id || req.auth.role == "admin") &&
     (req.profile.isEnabled || req.auth.role == "admin");
 

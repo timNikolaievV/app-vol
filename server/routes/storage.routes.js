@@ -4,8 +4,6 @@ import authCtrl from "../controllers/auth.controller";
 
 const router = express.Router();
 
-//add authorization
-
 router.route("/api/storages").get(storageCtrl.list).post(storageCtrl.create);
 
 router

@@ -76,7 +76,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function QueriesByStorage({ match }) {
   const classes = useStyles();
-  //const [categories, setCategories] = useState([]);
   const [values, setValues] = useState({
     category: "",
     search: "",
@@ -121,7 +120,6 @@ export default function QueriesByStorage({ match }) {
   };
 
   const search = () => {
-    // if (values.search) {
     listByStorage({
       storageId: values.storage._id,
       search: values.search || undefined,
@@ -139,7 +137,6 @@ export default function QueriesByStorage({ match }) {
         });
       }
     });
-    // }
   };
   const enterKey = (event) => {
     if (event.keyCode == 13) {
@@ -154,16 +151,16 @@ export default function QueriesByStorage({ match }) {
   };
 
   const updateQuery = (query) => {
-    const data = values.results.map((x) => {
-      if (x._id === query._id) {
-        x.demand = query.demand;
-        x.collected = query.collected;
-      }
-      return x;
-    });
+    // const data = values.results.map((x) => {
+    //   if (x._id === query._id) {
+    //     x.demand = query.demand;
+    //     x.collected = query.collected;
+    //   }
+    //   return x;
+    // });
+
     setValues({ ...values, results: data });
   };
-  console.log(auth.isAuthenticated());
   return (
     <div>
       <Paper className={classes.root} elevation={4}>

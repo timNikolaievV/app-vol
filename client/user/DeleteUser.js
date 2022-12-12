@@ -51,7 +51,7 @@ export default function DeleteUser(props) {
       <Dialog open={open} onClose={handleRequestClose}>
         <DialogTitle>{"Delete Account"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>Confirm to delete  account.</DialogContentText>
+          <DialogContentText>Confirm to delete account.</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleRequestClose} color="primary">

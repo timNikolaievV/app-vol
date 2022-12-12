@@ -8,9 +8,6 @@ import ListItemText from "@material-ui/core/ListItemText";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ArrowForward from "@material-ui/icons/ArrowForward";
-import Person from "@material-ui/icons/Person";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/core/Icon";
 import { Redirect, Link } from "react-router-dom";
 import { list } from "./api-storage.js";
 

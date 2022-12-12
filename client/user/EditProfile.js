@@ -6,11 +6,10 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import Icon from "@material-ui/core/Icon";
-import Checkbox from "@material-ui/core/Checkbox";
 import { makeStyles } from "@material-ui/core/styles";
 import auth from "./../auth/auth-helper";
 import { read, update } from "./api-user.js";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -105,14 +104,11 @@ export default function EditProfile({ match }) {
     });
   };
   const handleChange = (name) => (event) => {
-    console.log(values);
     setValues({
       ...values,
       [name]: event.target.value,
     });
-    console.log(name);
 
-    console.log(values);
   };
 
   if (values.redirectToProfile) {
@@ -162,7 +158,7 @@ export default function EditProfile({ match }) {
             value={values.role}
             onChange={handleChange("role")}
             margin="normal"
-            helperText = "Enter user or admin to give the role"
+            helperText="Enter user or admin to give the role"
           />
         )}
         <br />
@@ -175,7 +171,7 @@ export default function EditProfile({ match }) {
             value={values.isEnabled}
             onChange={handleChange("isEnabled")}
             margin="normal"
-            helperText = "Enter true or false to activate account"
+            helperText="Enter true or false to activate account"
           />
         )}
         <br />
@@ -197,6 +193,9 @@ export default function EditProfile({ match }) {
         >
           Submit
         </Button>
+        <Link to={"/users/"} className={classes.submit}>
+          <Button variant="contained">Cancel</Button>
+        </Link>
       </CardActions>
     </Card>
   );

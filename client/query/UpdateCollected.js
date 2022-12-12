@@ -10,6 +10,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import auth from "../auth/auth-helper";
 import { update } from "./api-query.js";
 import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
+
 import TextField from "@material-ui/core/TextField";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
@@ -42,8 +44,8 @@ export default function UpdateCollected(props) {
     });
   };
   const addCollected = () => {
-    props.query.collected += quantity;
-    props.query.demand -= quantity;
+    props.query.collected += parseInt(quantity);
+    props.query.demand -= parseInt(quantity);
 
     if (props.query.demand < 0) {
       props.query.demand = 0;
@@ -52,7 +54,7 @@ export default function UpdateCollected(props) {
   };
 
   const minusCollected = () => {
-    props.query.collected -= quantity;
+    props.query.collected -= parseInt(quantity);
     if (props.query.collected < 0) {
       props.query.collected = 0;
     }
@@ -99,14 +101,14 @@ export default function UpdateCollected(props) {
             color="secondary"
             autoFocus="autoFocus"
           >
-            +
+            <AddIcon />
           </Button>
           <Button
             onClick={minusCollected}
             color="secondary"
             autoFocus="autoFocus"
           >
-            -
+            <RemoveIcon />
           </Button>
         </DialogActions>
       </Dialog>

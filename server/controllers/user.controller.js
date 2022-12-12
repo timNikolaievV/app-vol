@@ -101,7 +101,6 @@ const getAdmins = async () => {
   const query = {};
   query.role = "admin";
   let admins = await User.find(query).populate("user", "_id name");
-  console.log(admins.length);
   return admins;
 };
 

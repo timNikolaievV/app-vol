@@ -3,14 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ArrowForward from "@material-ui/icons/ArrowForward";
-import Person from "@material-ui/icons/Person";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/core/Icon";
 import { Redirect, Link } from "react-router-dom";
@@ -67,12 +64,12 @@ export default function Storages() {
         </span>
       </Typography>
       <List dense>
-          <ListItem >
-            <ListItemText primary={"Name"} />
-            <ListItemText primary={"Location"} />
-            <ListItemText primary={"Person"} />
-          </ListItem>
-        </List>
+        <ListItem>
+          <ListItemText primary={"Name"} />
+          <ListItemText primary={"Location"} />
+          <ListItemText primary={"Person"} />
+        </ListItem>
+      </List>
       <List dense>
         {storages.map((item, i) => {
           return (
