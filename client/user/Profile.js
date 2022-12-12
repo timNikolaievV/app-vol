@@ -16,6 +16,7 @@ import DeleteUser from "./DeleteUser";
 import auth from "./../auth/auth-helper";
 import { read } from "./api-user.js";
 import { Redirect, Link } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -83,11 +84,13 @@ export default function Profile({ match }) {
             (auth.isAuthenticated().user._id == user._id ||
               auth.inRole("admin")) && (
               <ListItemSecondaryAction>
-                <Link to={"/user/edit/" + user._id}>
-                  <IconButton aria-label="Edit" color="primary">
-                    <Edit />
-                  </IconButton>
-                </Link>
+                <Tooltip title="Edit">
+                  <Link to={"/user/edit/" + user._id}>
+                    <IconButton aria-label="Edit" color="primary">
+                      <Edit />
+                    </IconButton>
+                  </Link>
+                </Tooltip>
                 <DeleteUser userId={user._id} />
               </ListItemSecondaryAction>
             )}

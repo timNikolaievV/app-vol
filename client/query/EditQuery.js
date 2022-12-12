@@ -196,6 +196,7 @@ export default function EditQuery({ match }) {
           <br />
           <TextField
             id="category"
+            select
             label="Category"
             className={classes.textField}
             value={values.category}

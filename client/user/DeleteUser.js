@@ -9,6 +9,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import auth from "../auth/auth-helper";
+import Tooltip from "@material-ui/core/Tooltip";
 import { remove } from "./api-user.js";
 import { Redirect } from "react-router-dom";
 
@@ -49,10 +50,11 @@ export default function DeleteUser(props) {
   }
   return (
     <span>
-      <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
-        <DeleteIcon />
-      </IconButton>
-
+      <Tooltip title="Delete">
+        <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={handleRequestClose}>
         <DialogTitle>{"Delete Account"}</DialogTitle>
         <DialogContent>

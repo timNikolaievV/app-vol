@@ -26,7 +26,7 @@ import { listCategories, listByStorage } from "./api-query.js";
 import DeleteQuery from "./DeleteQuery";
 import UpdateCollected from "./UpdateCollected";
 import Categories from "./Categories";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
@@ -151,13 +151,13 @@ export default function QueriesByStorage({ match }) {
   };
 
   const updateQuery = (query) => {
-    // const data = values.results.map((x) => {
-    //   if (x._id === query._id) {
-    //     x.demand = query.demand;
-    //     x.collected = query.collected;
-    //   }
-    //   return x;
-    // });
+    const data = values.results.map((x) => {
+      if (x._id === query._id) {
+        x.demand = query.demand;
+        x.collected = query.collected;
+      }
+      return x;
+    });
 
     setValues({ ...values, results: data });
   };

@@ -12,10 +12,11 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
 import ListItemText from "@material-ui/core/ListItemText";
 import Avatar from "@material-ui/core/Avatar";
-import StorageIcon from '@material-ui/icons/Storage';
+import StorageIcon from "@material-ui/icons/Storage";
 import { makeStyles } from "@material-ui/core/styles";
 import { create, read } from "./api-storage.js";
 import { Link, Redirect } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -95,7 +96,7 @@ export default function Storage({ match }) {
   return (
     <Paper className={classes.root} elevation={4}>
       <Typography variant="h6" className={classes.title}>
-      {storage.name}
+        {storage.name}
       </Typography>
       <List dense>
         <ListItem>
@@ -104,14 +105,19 @@ export default function Storage({ match }) {
               <StorageIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={storage.contactPerson} secondary={storage.location} />{" "}
+          <ListItemText
+            primary={storage.contactPerson}
+            secondary={storage.location}
+          />{" "}
           {auth.isAuthenticated().user && (
             <ListItemSecondaryAction>
-              <Link to={"/storage/edit/" + storage._id}>
-                <IconButton aria-label="Edit" color="primary">
-                  <Edit />
-                </IconButton>
-              </Link>
+              <Tooltip title="Edit">
+                <Link to={"/storage/edit/" + storage._id}>
+                  <IconButton aria-label="Edit" color="primary">
+                    <Edit />
+                  </IconButton>
+                </Link>
+              </Tooltip>
               <DeleteStorage storage={storage} onRemove={removeStorage} />
             </ListItemSecondaryAction>
           )}

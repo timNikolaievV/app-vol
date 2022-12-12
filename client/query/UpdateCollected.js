@@ -11,7 +11,7 @@ import auth from "../auth/auth-helper";
 import { update } from "./api-query.js";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 import TextField from "@material-ui/core/TextField";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
@@ -70,9 +70,15 @@ export default function UpdateCollected(props) {
   };
   return (
     <span>
-      <IconButton aria-label="AddIcon" onClick={clickButton} color="secondary">
-        <ShoppingCartIcon />
-      </IconButton>
+      <Tooltip title="Change collected value">
+        <IconButton
+          aria-label="AddIcon"
+          onClick={clickButton}
+          color="secondary"
+        >
+          <ShoppingCartIcon />
+        </IconButton>
+      </Tooltip>
 
       <Dialog open={open} onClose={handleRequestClose}>
         <DialogTitle>{"Change collected " + props.query.name}</DialogTitle>
@@ -96,20 +102,24 @@ export default function UpdateCollected(props) {
           <Button onClick={handleRequestClose} color="primary">
             Cancel
           </Button>
-          <Button
-            onClick={addCollected}
-            color="secondary"
-            autoFocus="autoFocus"
-          >
-            <AddIcon />
-          </Button>
-          <Button
-            onClick={minusCollected}
-            color="secondary"
-            autoFocus="autoFocus"
-          >
-            <RemoveIcon />
-          </Button>
+          <Tooltip title="Add collected items">
+            <Button
+              onClick={addCollected}
+              color="secondary"
+              autoFocus="autoFocus"
+            >
+              <AddIcon />
+            </Button>
+          </Tooltip>
+          <Tooltip title="Substract collected items">
+            <Button
+              onClick={minusCollected}
+              color="secondary"
+              autoFocus="autoFocus"
+            >
+              <RemoveIcon />
+            </Button>
+          </Tooltip>
         </DialogActions>
       </Dialog>
     </span>

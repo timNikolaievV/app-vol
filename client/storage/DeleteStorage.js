@@ -10,6 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import auth from "./../auth/auth-helper";
 import { remove } from "./api-storage.js";
+import Tooltip from "@material-ui/core/Tooltip";
 
 export default function DeleteStorage(props) {
   const [open, setOpen] = useState(false);
@@ -38,10 +39,11 @@ export default function DeleteStorage(props) {
   };
   return (
     <span>
-      <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
-        <DeleteIcon />
-      </IconButton>
-
+      <Tooltip title="Delete">
+        <IconButton aria-label="Delete" onClick={clickButton} color="secondary">
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
       <Dialog open={open} onClose={handleRequestClose}>
         <DialogTitle>{"Delete " + props.storage.name}</DialogTitle>
         <DialogContent>
