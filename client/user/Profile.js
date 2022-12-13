@@ -64,7 +64,7 @@ export default function Profile({ match }) {
     if (user.role === "admin") {
       return <Redirect to="/users" />;
     } else {
-      return <Redirect to="/signin" />;
+      return <Redirect to="/" />;
     }
   }
   return (

@@ -6,8 +6,10 @@ const create = async (req, res) => {
   const user = new User(req.body);
 
   try {
-    if ((await getAdmins().length) === 0) {
-      req.body.role = "admin";
+   
+    if ((await getAdmins()).length === 0) {
+      user.role = "admin";
+      user.isEnabled = true;
     }
 
     await user.save();
@@ -21,9 +23,7 @@ const create = async (req, res) => {
   }
 };
 
-/**
- * Load user and append to req.
- */
+
 const userByID = async (req, res, next, id) => {
   try {
     let user = await User.findById(id);
@@ -69,9 +69,7 @@ const update = async (req, res) => {
       console.log(user);
       user.role = "admin";
     }
-    //check for admin
     await user.save();
-
 
     user.hashed_password = undefined;
     user.salt = undefined;
