@@ -77,7 +77,6 @@ export default function NewStorage() {
   };
 
   if (values.redirect) {
-    //to change
     return <Redirect to={"/storages"} />;
   }
   return (

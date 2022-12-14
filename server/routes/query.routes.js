@@ -9,7 +9,6 @@ router
   .route("/api/storages/:storageId/queries")
   .get(queryCtrl.listByStorage)
   .post(queryCtrl.create);
-// authCtrl.requireSignin,
 
 router
   .route("/api/storages/:storageId/queries/:queryId")
@@ -20,6 +19,5 @@ router
 router.route("/api/categories").get(queryCtrl.listCategories);
 
 router.param("storageId", storageCtrl.storageByID);
-//router.param("queryId", queryCtrl.read);
 
 export default router;
