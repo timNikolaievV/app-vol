@@ -6,7 +6,6 @@ const create = async (req, res) => {
   const user = new User(req.body);
 
   try {
-   
     if ((await getAdmins()).length === 0) {
       user.role = "admin";
       user.isEnabled = true;
@@ -22,7 +21,6 @@ const create = async (req, res) => {
     });
   }
 };
-
 
 const userByID = async (req, res, next, id) => {
   try {
@@ -63,12 +61,6 @@ const update = async (req, res) => {
     user = extend(user, req.body);
     user.updated = Date.now();
 
-    const admins = await getAdmins();
-
-    if (admins.length === 1 && admins[0]._id === user._id) {
-      console.log(user);
-      user.role = "admin";
-    }
     await user.save();
 
     user.hashed_password = undefined;
